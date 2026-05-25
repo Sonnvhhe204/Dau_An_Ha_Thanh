@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dấu Ấn Hà Thành - Trò Chơi Trắc Nghiệm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Playfair+Display:ital,wght=0,700;1,500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- HỆ THỐNG MÀU SẮC VÀ ĐỒ HỌA GIẢ CỔ --- */
+        :root {
+            --bg-creme: #fdfbf7;
+            /* Nền giấy gấm vintage */
+            --bg-page: #f5eedf;
+            /* Màu nền tổng thể trang */
+            --maroon-dark: #731515;
+            /* Đỏ hoàng triều */
+            --maroon-light: #9c2424;
+            /* Đỏ nhấn */
+            --text-brown: #3d2421;
+            /* Chữ nâu trầm cổ kính */
+            --gold-accent: #c29f6b;
+            /* Vàng đồng cổ điển */
+            --gold-glow: rgba(194, 159, 107, 0.2);
+            --shadow-deep: 0 15px 35px rgba(61, 36, 33, 0.15);
+            --border-classic: 3px double var(--gold-accent);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-brown);
+            line-height: 1.6;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER BANNER HOÀNG GIA --- */
+        .game-header {
+            background-color: var(--bg-creme);
+            border: 4px solid var(--maroon-dark);
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-deep);
+        }
+
+        .flag-accent {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, transparent 50%, var(--maroon-dark) 50%);
+        }
+
+        .flag-accent::after {
+            content: "★";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #ffde17;
+            font-size: 26px;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--maroon-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            letter-spacing: 5px;
+            color: var(--gold-accent);
+            font-weight: 700;
+        }
+
+        /* --- THANH TRẠNG THÁI --- */
+        .status-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--maroon-dark);
+            color: #fff;
+            padding: 14px 25px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 20px rgba(115, 21, 21, 0.25);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-label {
+            font-size: 13px;
+            color: #f0d5d2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffde17;
+        }
+
+        /* --- KHU VỰC LUẬT CHƠI MỚI (ẢNH 1 & 2) --- */
+        .rules-container {
+            background-color: var(--bg-creme);
+            border: var(--border-classic);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-deep);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--maroon-dark);
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: "";
+            display: inline-block;
+            width: 50px;
+            height: 2px;
+            background: var(--gold-accent);
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .rule-card {
+            background: #fff;
+            border: 1px solid #e0d6c3;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .rule-card h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--maroon-light);
+        }
+
+        .game-img {
+            width: 100%;
+            max-height: 800px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            background: #fafafa;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+
+        .game-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* --- CẤU TRÚC KHU VỰC CHÍNH (QUIZ & MAP) --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+        }
+
+        /* KHU VỰC QUIZ */
+        .quiz-card {
+            background: linear-gradient(180deg, #fffdf8 0%, #f6ecd7 100%);
+            border: 3px solid rgba(194, 159, 107, 0.85);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: var(--shadow-deep);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(194, 159, 107, 0.16), transparent 34%);
+            pointer-events: none;
+        }
+
+        .quiz-title-tile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: linear-gradient(135deg, var(--maroon-dark) 0%, var(--maroon-light) 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 24px rgba(115, 21, 21, 0.22);
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-title-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .quiz-title-main {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .quiz-title-note {
+            font-size: 13px;
+            opacity: 0.9;
+            text-align: right;
+            max-width: 180px;
+        }
+
+        .quiz-title-tile strong {
+            display: block;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .quiz-header {
+            border-bottom: 2px dashed rgba(194, 159, 107, 0.4);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .question-category {
+            display: inline-block;
+            background-color: #f0ece1;
+            color: var(--maroon-dark);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border: 1px solid var(--gold-accent);
+        }
+
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--maroon-dark);
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-item {
+            background-color: #fff;
+            border: 2px solid #e6dfd3;
+            border-radius: 8px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            border-color: var(--maroon-dark);
+            background-color: #fdfaf5;
+            transform: translateX(3px);
+        }
+
+        .option-letter {
+            width: 34px;
+            height: 34px;
+            background-color: var(--maroon-dark);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* TRẠNG THÁI ĐÚNG SAI */
+        .option-item.correct {
+            background-color: #edf7ed !important;
+            border-color: #2e7d32 !important;
+            color: #1b5e20;
+        }
+
+        .option-item.correct .option-letter {
+            background-color: #2e7d32;
+        }
+
+        .option-item.wrong {
+            background-color: #fdeded !important;
+            border-color: #d32f2f !important;
+            color: #c62828;
+        }
+
+        .option-item.wrong .option-letter {
+            background-color: #d32f2f;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--maroon-dark);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(115, 21, 21, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--maroon-light);
+        }
+
+        /* --- KHU VỰC BẢN ĐỒ MỚI (ẢNH 3) --- */
+        .map-section {
+            background-color: var(--bg-creme);
+            border: var(--border-classic);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-deep);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-container {
+            flex: 1;
+            background: #fff;
+            border: 1px solid #e0d6c3;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .map-img {
+            width: 500px;
+            height: 100%;
+            max-height: 620px;
+            object-fit: contain;
+            border-radius: 4px;
+            filter: sepia(10%) contrast(105%);
+            /* Tăng độ hoài cổ cho bản đồ */
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* MÀN HÌNH KẾT THÚC */
+        .end-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(61, 36, 33, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .end-card {
+            background-color: var(--bg-creme);
+            border: var(--border-classic);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border-radius: 12px;
+            animation: popup 0.3s ease-out forwards;
+        }
+
+        .end-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--maroon-dark);
+            margin-bottom: 12px;
+        }
+
+        .final-score-box {
+            background-color: #f7f3e9;
+            border: 2px solid var(--gold-accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .final-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 46px;
+            font-weight: bold;
+            color: var(--maroon-dark);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes popup {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive di động */
+        @media (max-width: 900px) {
+
+            .rules-grid,
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game-container">
+        <header class="game-header">
+            <div class="flag-accent"></div>
+            <div class="header-logo">
+                <h1 class="main-title">Dấu Ấn Hà Thành</h1>
+                <p class="subtitle">HÀNH TRÌNH KHÁM PHÁ DI SẢN NGÀN NĂM</p>
+            </div>
+        </header>
+
+        <section class="rules-container">
+            <h3 class="section-title">Cẩm Nang Đường Đua Cổ Kính</h3>
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <h4>📜 Thành Phần Bộ Bài Bảo Bối</h4>
+                    <img src="anh1.jpg" alt="Thành phần bảo bối" class="game-img">
+                </div>
+                <div class="rule-card">
+                    <h4>🎯 Hướng Dẫn Vận Hành Thử Thách</h4>
+                    <img src="anh2.jpg" alt="Luật chơi thử thách" class="game-img">
+                </div>
+            </div>
+        </section>
+
+        <section class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Điểm Số:</span>
+                <span id="score" class="status-value">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Tiến Trình:</span>
+                <span id="progress" class="status-value">1/11</span>
+            </div>
+        </section>
+
+        <main class="main-layout">
+
+            <section class="quiz-section">
+                <div class="quiz-card">
+                    <div class="quiz-title-tile">
+                        <div>
+                            <div class="quiz-title-badge">Câu hỏi trò chơi</div>
+                            <h2 class="quiz-title-main">Nhìn thật rõ câu hỏi trước khi chọn đáp án</h2>
+                        </div>
+
+                    </div>
+                    <div class="quiz-header">
+                        <span class="question-category">Địa Danh Lịch Sử</span>
+                        <h2 id="question-text" class="question-text">Đang tải câu hỏi Thăng Long...</h2>
+                    </div>
+
+                    <div id="options-grid" class="options-grid">
+                    </div>
+
+                    <div class="quiz-footer">
+                        <button id="next-btn" class="btn btn-primary hidden">Tiếp Bước &rarr;</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="map-section">
+                <h3 class="section-title">Bản Đồ Di Tích Kinh Kỳ</h3>
+                <div class="map-container">
+                    <img src="anhmap.jpg" alt="Bản đồ Board Game Dấu Ấn Hà Thành" class="map-img">
+                </div>
+            </section>
+
+        </main>
+
+        <div id="end-screen" class="end-screen hidden">
+            <div class="end-card">
+                <h2 class="end-title">Khải Hoàn Môn!</h2>
+                <p class="end-desc">Bạn đã xuất sắc vượt qua toàn bộ các mảnh vỡ lịch sử để chắp vá nên Dấu Ấn Thăng
+                    Long vinh quang.</p>
+                <div class="final-score-box">
+                    <span class="final-label">Tổng số điểm tích lũy:</span>
+                    <span id="final-score" class="final-value">0</span>
+                </div>
+                <button onclick="restartGame()" class="btn btn-primary">Tái Khởi Hành Trình</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Cầu Long Biên được xây dựng vào thời gian nào?",
+                options: [
+                    { text: "Từ năm 1890 đến năm 1905", letter: "A" },
+                    { text: "Từ năm 1899 đến năm 1902", letter: "B" },
+                    { text: "Từ năm 1901 đến năm 1911", letter: "C" },
+                    { text: "Từ năm 1945 đến năm 1954", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Ai là người thiết kế cầu Long Biên?",
+                options: [
+                    { text: "Do kiến trúc sư Việt Nam", letter: "A" },
+                    { text: "Cầu do hãng Eiffel của Pháp", letter: "B" },
+                    { text: "Do các kỹ sư Liên Xô", letter: "C" },
+                    { text: "Do kiến trúc sư người Mỹ", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Cầu Long Biên bắc qua con sông nào?",
+                options: [
+                    { text: "Sông Đà", letter: "A" },
+                    { text: "Sông Đuống", letter: "B" },
+                    { text: "Sông Hồng ở Hà Nội", letter: "C" },
+                    { text: "Sông Tô Lịch", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Cầu Long Biên có ý nghĩa lịch sử gì?",
+                options: [
+                    { text: "Là cây cầu hiện đại nhất Đông Nam Á", letter: "A" },
+                    { text: "Đây là chứng nhân lịch sử quan trọng", letter: "B" },
+                    { text: "Là nơi giao thương kinh tế", letter: "C" },
+                    { text: "Là biểu tượng của kiến trúc tương lai", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Điều đặc biệt của cầu Long Biên là gì?",
+                options: [
+                    { text: "Được làm hoàn toàn bằng đá hoa cương", letter: "A" },
+                    { text: "Cây cầu vẫn còn tồn tại và trở thành biểu tượng lịch sử của Hà Nội", letter: "B" },
+                    { text: "Cầu có thể tự động đóng mở cho tàu thuyền", letter: "C" },
+                    { text: "Là cây cầu dài nhất thế giới", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Bảo tàng Dân tộc học Việt Nam được thành lập năm nào?",
+                options: [
+                    { text: "Năm 1975", letter: "A" },
+                    { text: "Năm 1986", letter: "B" },
+                    { text: "Năm 1997", letter: "C" },
+                    { text: "Năm 2010", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Bảo tàng trưng bày nội dung gì?",
+                options: [
+                    { text: "Các loại vũ khí", letter: "A" },
+                    { text: "Văn hóa của 54 dân tộc Việt Nam", letter: "B" },
+                    { text: "Nghệ thuật hiện đại của thế giới", letter: "C" },
+                    { text: "Lịch sử tự nhiên và các loài sinh vật cổ đại", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Điểm nổi bật của bảo tàng là gì?",
+                options: [
+                    { text: "Rạp chiếu phim 3D quy mô lớn", letter: "A" },
+                    { text: "Khu trưng bày ngoài trời với các ngôi nhà dân tộc", letter: "B" },
+                    { text: "Toàn bộ bảo tàng được xây dựng dưới lòng đất", letter: "C" },
+                    { text: "Có tháp cao ngắm toàn cảnh thành phố", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Bảo tàng có ý nghĩa gì?",
+                options: [
+                    { text: "Góp phần bảo tồn và quảng bá bản sắc văn hóa dân tộc Việt Nam", letter: "A" },
+                    { text: "Trung tâm nghiên cứu khoa học", letter: "B" },
+                    { text: "Là nơi tổ chức các sự kiện thể thao quốc tế", letter: "C" },
+                    { text: "Là cơ quan quản lý hành chính về văn hóa", letter: "D" }
+                ],
+                correct: "A"
+            },
+            {
+                question: "Lăng Chủ tịch Hồ Chí Minh được xây dựng khi nào?",
+                options: [
+                    { text: "Từ năm 1945 đến 1947", letter: "A" },
+                    { text: "Từ năm 1954 đến 1960", letter: "B" },
+                    { text: "Từ năm 1973 đến 1975", letter: "C" },
+                    { text: "Từ năm 1980 đến 1985", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Lăng nằm ở đâu?",
+                options: [
+                    { text: "Quảng trường Ba Đình, Hà Nội", letter: "A" },
+                    { text: "Hồ Gươm, quận Hoàn Kiếm, Hà Nội", letter: "B" },
+                    { text: "Văn Miếu - Quốc Tử Giám, Hà Nội", letter: "C" },
+                    { text: "Hoàng thành Thăng Long, Hà Nội", letter: "D" }
+                ],
+                correct: "A"
+            },
+            {
+                question: "Vật liệu xây dựng lăng có gì đặc biệt?",
+                options: [
+                    { text: "Toàn bộ vật liệu được nhập khẩu từ Pháp", letter: "A" },
+                    { text: "Vật liệu được mang từ nhiều vùng miền trên cả nước để xây dựng lăng", letter: "B" },
+                    { text: "Lăng được xây dựng hoàn toàn bằng gỗ lim cổ thụ", letter: "C" },
+                    { text: "Vật liệu được làm bằng công nghệ in 3D hiện đại", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Điều đặc biệt của lăng là gì?",
+                options: [
+                    { text: "Tự phát sáng vào ban đêm không cần điện", letter: "A" },
+                    { text: "Thi hài Chủ tịch Hồ Chí Minh được bảo quản lâu dài trong lăng bằng kỹ thuật đặc biệt", letter: "B" },
+                    { text: "Là nơi diễn ra các buổi biểu diễn nghệ thuật quốc tế", letter: "C" },
+                    { text: "Là trung tâm hành chính tối cao của Chính phủ", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Hồ Gươm gắn với truyền thuyết nào?",
+                options: [
+                    { text: "Hồ Gươm gắn với truyền thuyết vua Lê Lợi trả gươm báu cho Rùa Vàng", letter: "A" },
+                    { text: "Truyền thuyết Sơn Tinh - Thủy Tinh", letter: "B" },
+                    { text: "Truyền thuyết Thánh Gióng", letter: "C" },
+                    { text: "Truyền thuyết Thạch Sanh", letter: "D" }
+                ],
+                correct: "A"
+            },
+            {
+                question: "Hồ Gươm nằm ở đâu?",
+                options: [
+                    { text: "Nằm tại trung tâm quận Ba Đình, Hà Nội", letter: "A" },
+                    { text: "Hồ nằm tại trung tâm quận Hoàn Kiếm, Hà Nội", letter: "B" },
+                    { text: "Nằm tại trung tâm quận Tây Hồ, Hà Nội", letter: "C" },
+                    { text: "Nằm tại trung tâm quận Đống Đa, Hà Nội", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Nhà hát Lớn Hà Nội được xây dựng vào thời gian nào?",
+                options: [
+                    { text: "Từ năm 1890 đến năm 1900", letter: "A" },
+                    { text: "Từ năm 1901 đến năm 1911", letter: "B" },
+                    { text: "Từ năm 1920 đến năm 1930", letter: "C" },
+                    { text: "Từ năm 1945 đến năm 1954", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Kiến trúc của Nhà hát Lớn mang phong cách gì?",
+                options: [
+                    { text: "Phong cách kiến trúc hiện đại của Mỹ", letter: "A" },
+                    { text: "Phong cách kiến trúc truyền thống Á Đông", letter: "B" },
+                    { text: "Công trình mang phong cách kiến trúc cổ điển Pháp", letter: "C" },
+                    { text: "Phong cách kiến trúc Gothic của Anh", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Nhà tù Hỏa Lò được xây dựng vào năm nào?",
+                options: [
+                    { text: "Năm 1858", letter: "A" },
+                    { text: "Năm 1890", letter: "B" },
+                    { text: "Năm 1896", letter: "C" },
+                    { text: "Năm 1930", letter: "D" }
+                ],
+                correct: "C"
+            },
+            {
+                question: "Văn Miếu – Quốc Tử Giám được xây dựng khi nào?",
+                options: [
+                    { text: "Năm 1070, Quốc Tử Giám được lập năm 1076 dưới thời Lý", letter: "A" },
+                    { text: "Năm 1225 dưới thời Trần", letter: "B" },
+                    { text: "Năm 1428 dưới thời Lê sơ", letter: "C" },
+                    { text: "Năm 1802 dưới thời Nguyễn", letter: "D" }
+                ],
+                correct: "A"
+            },
+            {
+                question: "Chùa Một Cột được xây dựng vào năm nào?",
+                options: [
+                    { text: "Năm 544 dưới thời vua Lý Nam Đế", letter: "A" },
+                    { text: "Năm 1049 dưới thời vua Lý Thái Tông", letter: "B" },
+                    { text: "Năm 1226 dưới thời vua Trần Thái Tông", letter: "C" },
+                    { text: "Năm 1428 dưới thời vua Lê Thái Tổ", letter: "D" }
+                ],
+                correct: "B"
+            },
+            {
+                question: "Hoàng Thành Thăng Long được UNESCO công nhận là Di sản Văn hóa Thế giới vào năm nào?",
+                options: [
+                    { text: "Năm 2005", letter: "A" },
+                    { text: "Năm 2008", letter: "B" },
+                    { text: "Năm 2010", letter: "C" },
+                    { text: "Năm 2012", letter: "D" }
+                ],
+                correct: "C"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionTextEl = document.getElementById('question-text');
+        const optionsGridEl = document.getElementById('options-grid');
+        const progressEl = document.getElementById('progress');
+        const scoreEl = document.getElementById('score');
+        const nextBtn = document.getElementById('next-btn');
+        const endScreenEl = document.getElementById('end-screen');
+        const finalScoreEl = document.getElementById('final-score');
+
+        function initQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreEl.textContent = score;
+            endScreenEl.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            nextBtn.classList.add('hidden');
+            optionsGridEl.innerHTML = '';
+
+            let currentData = quizData[currentQuestionIndex];
+            progressEl.textContent = `${currentQuestionIndex + 1}/${quizData.length}`;
+            questionTextEl.textContent = currentData.question;
+
+            currentData.options.forEach(opt => {
+                const button = document.createElement('div');
+                button.className = 'option-item';
+                button.innerHTML = `
+                    <div class="option-letter">${opt.letter}</div>
+                    <div class="option-text">${opt.text}</div>
+                `;
+                button.addEventListener('click', () => selectOption(button, opt.letter, currentData.correct));
+                optionsGridEl.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedElement, selectedLetter, correctLetter) {
+            const allOptions = optionsGridEl.querySelectorAll('.option-item');
+            allOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedLetter === correctLetter) {
+                selectedElement.classList.add('correct');
+                score += 25;
+                scoreEl.textContent = score;
+            } else {
+                selectedElement.classList.add('wrong');
+                allOptions.forEach(opt => {
+                    const letter = opt.querySelector('.option-letter').textContent;
+                    if (letter === correctLetter) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            nextBtn.classList.remove('hidden');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+            } else {
+                showEndScreen();
+            }
+        });
+
+        function showEndScreen() {
+            endScreenEl.classList.remove('hidden');
+            finalScoreEl.textContent = score;
+        }
+
+        function restartGame() {
+            initQuiz();
+        }
+
+        window.onload = initQuiz;
+    </script>
+</body>
+
+</html>
