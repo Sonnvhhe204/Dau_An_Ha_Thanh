@@ -73,6 +73,17 @@
             background: linear-gradient(135deg, transparent 50%, var(--maroon-dark) 50%);
         }
 
+        /* Ensure header content appears above the decorative flag */
+        .header-logo {
+            position: relative;
+            z-index: 1;
+        }
+
+        .flag-accent {
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .flag-accent::after {
             content: "★";
             position: absolute;
@@ -521,6 +532,21 @@
                 margin-bottom: 16px;
             }
 
+            /* Shrink or move the decorative corner on small screens so it doesn't cover text */
+            .flag-accent {
+                width: 84px;
+                height: 84px;
+                top: -8px;
+                right: -8px;
+                background: linear-gradient(135deg, transparent 50%, var(--maroon-dark) 50%);
+                z-index: 0;
+            }
+
+            .header-logo {
+                padding-right: 12px; /* ensure text doesn't underflow into corner */
+                z-index: 1;
+            }
+
             .main-title {
                 font-size: 28px;
                 line-height: 1.15;
@@ -532,6 +558,8 @@
                 font-size: 11px;
                 letter-spacing: 2px;
                 line-height: 1.4;
+                white-space: normal;
+                word-break: break-word;
             }
 
             .status-bar {
