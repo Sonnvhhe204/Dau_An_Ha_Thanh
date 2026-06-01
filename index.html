@@ -33,6 +33,9 @@
     html,
     body {
       height: 100%;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
       font-family: 'Crimson Pro', 'Noto Serif', serif;
     }
 
@@ -695,6 +698,14 @@
         font-size: 18px;
       }
 
+      .page,
+      .main,
+      .content,
+      .sidebar {
+        width: 100%;
+        max-width: 100%;
+      }
+
       .main {
         flex-direction: column-reverse;
         min-height: auto;
@@ -714,26 +725,30 @@
       /* Mobile: 2 thumbnails on top, map spans full width below */
       .gallery-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: min-content;
         overflow: hidden;
         padding: 8px;
-        gap: 10px;
+        gap: 6px;
       }
 
       .gallery-item {
         width: 100%;
-        min-height: 150px;
+        min-height: 140px;
         max-height: 180px;
+        height: 160px;
         border-right: none;
         border-bottom: none;
         border-radius: 10px;
         overflow: hidden;
         background: rgba(255, 255, 255, 0.02);
+        align-items: flex-start;
       }
 
       .gallery-item:nth-child(3) {
         grid-column: 1 / -1;
         min-height: 220px;
         max-height: 260px;
+        height: 240px;
       }
 
       .gallery-item img {
