@@ -1019,7 +1019,7 @@
       el.classList.add('active');
       currentLoc = key;
       qIndex = 0;
-      currentQuestions = shuffleQuestions(questions[key] || []);
+      currentQuestions = getRandomQuestions(questions[key] || [], 4);
       showQuestion(key, 0);
     }
 
@@ -1039,13 +1039,17 @@
       }
     }
 
-    function shuffleQuestions(list) {
-      const shuffled = [...list];
-      for (let i = shuffled.length - 1; i > 0; i--) {
+    function getRandomQuestions(list, maxCount = list.length) {
+      const shuffled = shuffleArray([...list]);
+      return shuffled.slice(0, Math.min(maxCount, shuffled.length));
+    }
+
+    function shuffleArray(list) {
+      for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        [list[i], list[j]] = [list[j], list[i]];
       }
-      return shuffled;
+      return list;
     }
 
     function showQuestion(key, idx) {
