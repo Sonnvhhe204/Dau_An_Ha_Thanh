@@ -624,7 +624,7 @@
         height: 40px;
       }
 
-      background: url('./Anhlogo.jpg') center/cover no-repeat;
+     
 
       .navbar-title h1 {
         font-size: 18px;
@@ -671,39 +671,40 @@
       }
 
       .location-list {
-        max-height: 200px;
+        max-height: none;
       }
 
 
       /* Mobile: thumbnails row, small and scrollable */
       .gallery-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        overflow: hidden;
+        grid-template-columns: 1fr;
+        overflow: visible;
         padding: 8px;
-        gap: 8px;
+        gap: 10px;
       }
 
       .gallery-item {
         width: 100%;
-        min-height: 130px;
-        max-height: 180px;
+        min-height: auto;
+        max-height: none;
         border-right: none;
         border-bottom: none;
-        border-radius: 6px;
+        border-radius: 10px;
         overflow: hidden;
         background: rgba(255, 255, 255, 0.02);
       }
 
       .gallery-item:nth-child(3) {
-        grid-column: 1 / -1;
-        min-height: 150px;
-        max-height: 220px;
+        grid-column: auto;
+        min-height: auto;
+        max-height: none;
       }
 
       .gallery-item img {
         width: 100%;
-        height: 100%;
-        object-fit: contain;
+        height: auto;
+        object-fit: cover;
+        object-position: center center;
         display: block;
       }
 
@@ -879,8 +880,8 @@
             <div class="gallery-caption">Luat choi</div>
           </div>
           <div class="gallery-item">
-            <img src="./anhmap.jpg" alt="B?n d?" style="object-position: right center" />
-            <div class="gallery-caption">Ban Do</div>
+            <img src="./anhmap.jpg" alt="Bản đồ" />
+            <div class="gallery-caption">Bản đồ</div>
           </div>
         </div>
 
