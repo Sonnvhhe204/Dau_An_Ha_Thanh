@@ -675,18 +675,18 @@
       }
 
 
-      /* Mobile: thumbnails row, small and scrollable */
+      /* Mobile: 2 thumbnails on top, map spans full width below */
       .gallery-strip {
-        grid-template-columns: 1fr;
-        overflow: visible;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: hidden;
         padding: 8px;
         gap: 10px;
       }
 
       .gallery-item {
         width: 100%;
-        min-height: auto;
-        max-height: none;
+        min-height: 150px;
+        max-height: 180px;
         border-right: none;
         border-bottom: none;
         border-radius: 10px;
@@ -695,14 +695,14 @@
       }
 
       .gallery-item:nth-child(3) {
-        grid-column: auto;
-        min-height: auto;
-        max-height: none;
+        grid-column: 1 / -1;
+        min-height: 220px;
+        max-height: 260px;
       }
 
       .gallery-item img {
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: cover;
         object-position: center center;
         display: block;
